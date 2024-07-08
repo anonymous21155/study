@@ -32,3 +32,19 @@ docker images
 docker ps
 
 #tag image locally
+docker image tag <container-id> <name>/<tag>
+
+#tage image for docker hub
+docker  tag <localimage-name> <repo-name>/<image name>:<tag>
+
+#pull from docker
+docker pull  <repo-name>/<image name>:<tag>
+
+#run docker image locally
+docker run -d --name <local-namefor-container> <repo-name>/<image name>:<tag> -p <port on host machine>:<port on app in container is running>
+
+#to stop docker image from running
+docker stop <container-id> or <container-name>
+
+#to delete a image
+docker rmi <repo-name>/<image name>:<tag>
