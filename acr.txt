@@ -1,0 +1,34 @@
+# login command -ACR
+az acr login --name <registry-name> #login server value 'azurecr.io'
+
+# pull image from docker hub
+docker pull <registry name>/<image name>
+
+# tag the image before pushing to acr
+docker tag <registry name>/<image name> <login server value>/<tag value>
+# ex: docker tag mcr.microsoft.com/hello-world mycontainerregistry.azurecr.io/hello-world:v1
+
+# push image to acr 
+docker push <login server value>/<tag value>
+
+# pull & run image from acr
+docker run  <login server value>/<tag value>
+
+# delete image from locally
+docker rmi <registry name>/<image name>
+
+# build docker file
+docker build .
+docker build -f <path to docker file>
+docker build -t <user name>/<image name>
+
+# doker login
+docker login 
+
+# list all images locally
+docker images 
+
+#get the status of image
+docker ps
+
+#tag image locally
