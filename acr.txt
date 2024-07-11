@@ -5,7 +5,7 @@ az acr login --name <registry-name> #login server value 'azurecr.io'
 docker pull <registry name>/<image name>
 
 # tag the image before pushing to acr
-docker tag <registry name>/<image name> <login server value>/<tag value>
+docker tag <registry name>/<image name> <login server value>/<repo name><tag value>
 # ex: docker tag mcr.microsoft.com/hello-world mycontainerregistry.azurecr.io/hello-world:v1
 
 # push image to acr 
