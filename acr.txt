@@ -48,3 +48,9 @@ docker stop <container-id> or <container-name>
 
 #to delete a image
 docker rmi <repo-name>/<image name>:<tag>
+
+# to build and run muuti container images
+docker compose -f <path to compose file(yaml)> -d #-d is detached mode, seprated from terminal
+
+#to stop multi container images
+docker compose down
