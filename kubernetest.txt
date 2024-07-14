@@ -1,0 +1,110 @@
+# self register node by kubelet( the one make sure workload run on pod, each naode has one)
+--register-node=true
+
+#manullay register node
+--register-node=false
+
+#prevent kube scheduler(one create & assign pod to nodes) from creating further nodes
+kubectl cordon <node-name>
+
+#status of node
+kubectl describe node <node-name>
+
+#deployment using manifest file
+kubectl apply -f <path to mainfest file>
+
+#create deployment using imperative command
+kubectl create deployment <deployment name> --image <image name>
+#ex: kubectl create deployment nginx --image nginx
+
+#create deployment (object) using imperative object configuration
+kubectl create -f <manifest file>
+
+#delete deployment (object) using imperative object configuration
+kubectl delete -f <manifest file>
+
+# delete object  using foreground cascading deletion
+kubectl delete deployment nginx-deployment --cascade=foreground
+
+# delete object  using background cascading deletion(default)
+kubectl delete deployment nginx-deployment --cascade=background
+
+# delete object & retain dependats orpahed
+kubectl delete deployment nginx-deployment --cascade=orphan
+
+#update deployment (object) using imperative object configuration
+kubectl replace -f <manifest file>
+
+# deployment (object) using declarative object configuration
+kubectl diff -f <folder path>
+kubectl apply -f <folder path> # add -R to both as argument do it recursively
+
+# equality based labels
+  ex: prod = dev
+  ex: tier != frontend
+
+# set based labels
+ ex: environment in (production, qa) # enviroment key with value 'qa' or 'production'
+ ex: tier notin (frontend, backend) # tier key with 'frontend' & 'backend'
+ ex: !partion
+
+#get pods using equality based label selector
+kubectl get pods -l environment=production,tier=frontend # ',' reperesents and condition
+
+#get pods using set based label selector
+kubectl get pods -l 'environment in (production, qa)'
+
+#To see the Deployment rollout status
+kubectl rollout status deployment/<deployment name>
+
+#Get details of your object
+kubectl describe <object name>
+
+#get rollout status
+kubectl rollout status <object type>/<object name>
+
+#rollback to previous version
+kubect rollback undo <object type>/<object name>
+
+# get history of rollout
+kubectl rollout history <object type>/<object name>
+
+#update label for a kind of object
+kubectl label <object kind> -l <key>=<value>
+
+#get namespaces
+kubectl get namespace
+
+#To see which Kubernetes resources are and aren't in a namespace:
+kubectl api-resources --namespaced=true
+kubectl api-resources --namespaced=false
+
+#set namespace
+ex: kubectl get pods --namespace=<name>
+
+# annotations: metadata not used for filtering, include general infor like github repo, author etc
+ ex: apiVersion: v1
+     kind: Pod
+     metadata:
+     name: annotations-demo
+       annotations:
+         imageregistry: "https://hub.docker.com/
+
+#get object by fiels selectors
+kubectl get <object type> --field-selector <kind.property><operator><value>
+#ex: kubectl get pods --field-selector metadata.namespace!=default
+
+#finalizers: condition that need to be chacked and emptied before deleting a resources
+ ex: metadata:
+       finalizers:
+       - Kubernetes
+
+# set owner for an object
+ex: metadata:
+      ownerReferences: <object name>
+
+
+#Job is a Kubernetes resource that runs a Pod
+#job conntroller cretes and delete pods by sending commands to api-server
+#lease object contains node heartbeats, kubelet update the spec.renewTime property in lease object about heartbeat
+#container runtime is software responsible for running containers

@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: statefulSet
+metadata: 
+  name: satefulApp
+  labels:
+    deployment: staefuleApp
+spec:
+  replicas: 2
+  serviceName: myFirstHeadlessService
+  minReadySeconds: 10
+  selector:
+    matchLabels: 
+      headlessService: test
+  template:
+    metadata:
+      labels:
+        headlessService: test
+      spec:
+        containers:
+        terminationGracePeriodSeconds: 10
+          port:
+            conatinerPort: 3500
+          name: mypodTemplate
+          image: <acr name>.azurecr.io/<repo name>:<version>
+          volumeMounts:
+            name: myVolumeMount
+            mountPath: <mount path>
+  volumeClaimTemplates:
+    metadata:
+      name: myPersintantVolume
+    spec:
+      accessModes: ['ReadWriteOnce'] #ReadOnlyMany & ReadWriteMany are other values where Many means it can mounted to different nodes
+      resources:
+        requests:
+          storage: 2Gi
+      storageClassName: 'standard' #can be premimum like various tiers

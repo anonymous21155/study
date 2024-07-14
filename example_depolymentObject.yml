@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: test
+  name: myFirstApp
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      pod: Dev
+  template:
+    metadata:
+      name: podTemplate
+      labels:
+        template: testTemplate
+    spec:
+      containers:
+        name: myFirstContainer
+        image: <ACR name>.azurecr.io/<repo name>:<version>
+        ports: 
+          containerPort: 3000

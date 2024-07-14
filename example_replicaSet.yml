@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: replicaSet
+metaData:
+  name: myReplicaSet
+  labels: 
+    set: test
+spec: 
+  replicas: 2
+  selector:
+    matchLabels:
+      pod: Dev
+  template:
+    metadata:
+      labels:
+        template: testTemplate
+    spec:
+      containers:
+        port:
+          containerPort: <number>
+        name: <name>
+        image: <acr name>.azurecr.io/<repo name>.<version>
