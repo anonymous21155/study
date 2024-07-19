@@ -1,6 +1,9 @@
 # login command -ACR
 az acr login --name <registry-name> #login server value 'azurecr.io'
 
+# to create a ACR
+az acr create --resource-group myResourceGroup --name $ACRNAME --sku Basic
+
 # pull image from docker hub
 docker pull <registry name>/<image name>
 

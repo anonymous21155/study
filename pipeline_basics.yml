@@ -1,0 +1,154 @@
+parameters:
+- name: test
+  type: number
+  default: 1
+  values: 
+  - 1
+  - 2
+- name: obj
+  type: object
+  default: 
+    foo: 'FOO'
+    bar: 'BAR'
+    things:
+    - one
+    - two
+    - three
+    nested:
+      one: apple
+      two: pear
+      count: 3 
+- name: listOfFruits
+  type: object
+  default:
+  - fruitName: 'apple'
+    colors: ['red','green']
+  - fruitName: 'lemon'
+    colors: ['yellow']
+trigger: none
+ 
+pr: 
+ branches:
+   include:
+   - main
+   exclude:
+   - dev
+ paths:
+   include:
+   - '*'
+   exclude:
+   - docs
+ autoCancel: false
+ drafts: false
+
+#schedules:
+#- cron: 30 12 * Mar-Sep Mon,Wed,Fri
+#  branches: 
+#   include:
+#      - '*'
+#  always: false
+#  batch: true
+
+resources:
+ pipelines:
+ - pipeline: dependantpipeline
+   source: anonymous21155.mslearn-tailspin-spacegame-web
+   trigger: true  
+#repositories:  # for refernce template file from another repo
+#- repository: templates
+#  type: github
+#  name: <org name/github repo name> or <project name/azure repo name>
+#  endpoint: service connection name
+stages:
+- stage: A
+# pool: sever (forserverless job)
+  pool: 
+    vmImage: 'windows-latest'
+#   name: privateAgentName
+#   demands: yourCondition  
+#   container: 'public docker image' (container jobs)
+#   image: "ACR -IMAGE name"
+#   endpoint: 'sercie connection name'    
+  jobs:
+  - job: A1
+    displayName: Install Dependencies
+    continueOnError: false
+    strategy:
+#     parallel: 3 #System.TotalJobsInPhase indicates the total number of slices System.JobPositionInPhase identifies a particular slice
+      maxParallel: 2
+      matrix: 
+        node_14x: 
+          nodeVersion: 14.x
+        node_16x:
+          nodeVersion: 16.x
+    timeoutInMinutes: 4
+    cancelTimeoutInMinutes: 2
+    steps:
+    - script: |
+        npm install
+        npm run build
+      enabled: true
+      retryCountOnTaskFailure: 2
+    - pwsh: ./script.ps1 # for PowerShell Core
+      failOnStderr: true 
+    - powershell: .\script.ps1 # for Windows PowerShell
+    - bash: |
+        echo hello
+        which bash
+#   - template: /templates/azure-pipelines-1.yml
+#    workspace:
+#      clean: resources (Build.SourcesDirectory) | outputs (Build.BinariesDirectory) | all (Pipeline.Workspace)
+
+#   container: mcr.microsoft.com/windows/servercore:ltsc2019
+  - job: A2
+    displayName: Build the app
+    dependsOn: A1
+    condition: or(succeeded('A2'), and(eq(variables['build.sourceBranch'], 'refs/heads/main'), ne(variables['build.sourceBranch'], 'refs/heads/releases')))
+    steps:
+    - ${{ each fruit in parameters.listOfFruits }} :
+      - ${{ each fruitColor in fruit.colors}} :
+        - script: echo ${{ fruit.fruitName}} ${{ fruitColor }}
+  - job: A3
+    displayName: Backup Job
+#   dependsOn: [] (causes to run in parallel)
+    condition: failed()
+    steps:
+    - task: PublishTestResults@2
+      inputs:
+        searchFolder: string
+      retryCountOnTaskFailure: 1
+      enabled: false
+      env:
+        value: value
+      timeoutInMinutes: 5
+# - template: common.yml@templates #reference from another repo
+#   parameters: 
+#     parameterName: value   #pass parameter value to parameter defined in template
+  - deployment: 
+    environment: 
+      name: 'prod'
+      resourceType: VirtualMachine
+#     resourceId: 123
+#     resourceName: MyVM
+#     tags: prod, windows
+    strategy: 
+#     canary:
+#       increments: [10, 25]
+#     rolling:        #supports only vm
+#       maxParallel: 5 or 50%
+      runOnce:
+        preDeploy:
+          steps:
+          - script: echo iam going to deploy
+        deploy:
+          steps: 
+          - script: echo hello world
+        on: 
+          success:
+             steps:
+             - script: echo yeh i deployed
+          failure:
+            steps:
+            - script: echo oh no!
+    
+
