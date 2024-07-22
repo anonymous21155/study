@@ -1,3 +1,17 @@
+variables:
+  name: test
+  value: 1
+  group: my variable grp
+  name: prod #variable stored in variable group in UI
+  value: 2
+  name: QA
+  value: $(qaVariable) #variable stored  as a secret in UI
+# macro syntax: $(var) get proceesed before a task execute in runtime
+# template expression synatx: {{ variables.var }} get proceesed during  process at compile time, and get replaced before runtime starts
+# runtime expression syntax: $[variables.var] expanded at runtime
+# use output var from same job: $(task_name.variable_name)
+#use output var from different job: $[depedencies.job_name.outputs[task_name.varaiable_name]]
+# use output var from different stage: $[ stageDependenices.stage_name.job_name.outputs[task_name.varaiable_name]]
 parameters:
 - name: test
   type: number
@@ -87,6 +101,8 @@ stages:
     - script: |
         npm install
         npm run build
+      env:
+        myVar: test #$(qaVariable) varaiable set as secret in UI
       enabled: true
       retryCountOnTaskFailure: 2
     - pwsh: ./script.ps1 # for PowerShell Core
