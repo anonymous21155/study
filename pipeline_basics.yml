@@ -12,6 +12,7 @@ variables:
 # use output var from same job: $(task_name.variable_name)
 #use output var from different job: $[depedencies.job_name.outputs[task_name.varaiable_name]]
 # use output var from different stage: $[ stageDependenices.stage_name.job_name.outputs[task_name.varaiable_name]]
+# processparameter support checkboxes and drop down menu used in classic build pipeline only to link all arguments
 parameters:
 - name: test
   type: number
@@ -102,7 +103,7 @@ stages:
         npm install
         npm run build
       env:
-        myVar: test #$(qaVariable) varaiable set as secret in UI
+        myVar: test #$(qaVariable) varaiable set as secret in UI , also map the secret you feteched from keyvault using AzureKeyVault@1 task
       enabled: true
       retryCountOnTaskFailure: 2
     - pwsh: ./script.ps1 # for PowerShell Core
