@@ -20,3 +20,7 @@ spec:
         image: <ACR name>.azurecr.io/<repo name>:<version>
         ports: 
           containerPort: 3000
+  strategy:
+   type: RollingUpdate
+   rollingUpdate:
+     maxUnavailable: 1

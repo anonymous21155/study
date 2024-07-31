@@ -112,6 +112,10 @@ stages:
     - bash: |
         echo hello
         which bash
+    - publish: $(System.DefaultWorkingDirectory)/bin/WebApp
+      artifact: WebApp
+    - download: current
+      artifact: WebApp
 #   - template: /templates/azure-pipelines-1.yml
 #    workspace:
 #      clean: resources (Build.SourcesDirectory) | outputs (Build.BinariesDirectory) | all (Pipeline.Workspace)

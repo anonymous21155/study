@@ -1,0 +1,36 @@
+trigger:
+- main
+
+stages:
+- stage: build
+    pool: 
+      vmImage: "windows-latest"
+    jobs:
+      job: A1
+        steps: 
+          script: |
+            npm install
+            npm  build
+
+          task: CopyFiles@2
+          inputs:
+            contents: |
+              src/*
+              public/*
+            sourceFolder: $(Build.DefaultWorkingDirectory)
+            targetFolder: $(Build.ArtifactStagingDirectory)
+
+          task: PublishPipelineArtifact
+          inputs: 
+            artifactName: test
+            publishLocation: pipeline
+            targetPath: $(Build.ArtifactStagingDirectory)
+
+          task: ArchiveFiles@2
+          inputs:
+            rootFolderOrFile: $(Build.BinariesDirectory)
+            archiveType: zip
+            archiveFile: "some_name.zip"
+
+          download: current
+          artifact: "some_name.zip"

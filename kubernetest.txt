@@ -60,9 +60,17 @@ kubectl rollout status deployment/<deployment name>
 #Get details of your object
 kubectl describe <object name>
 
+#chaning two operations
+kubectl get $(kubectl -f docs/concepts/cluster-administration/nginx/ -o name | grep service/)
+
 #get rollout status
 kubectl rollout status <object type>/<object name>
 
+#scaling a deployement
+kubectl scale deployement/<deployement name> --replicas=<number>
+
+#autoscale a deployment
+kubectl autoscale deployement/<deployement name> --max=<number> --min=<number> --cpu-percent=<percentage>
 #rollback to previous version
 kubect rollback undo <object type>/<object name>
 
@@ -108,3 +116,22 @@ ex: metadata:
 #job conntroller cretes and delete pods by sending commands to api-server
 #lease object contains node heartbeats, kubelet update the spec.renewTime property in lease object about heartbeat
 #container runtime is software responsible for running containers
+# <imagePullPolicy> pulls image from registry. values are always, never& ifNotPresent
+# set <serializeImagePulls> to false so that 2 nodes call pull images parallel
+# probe is a diagnostic performed by kubelet on container
+# Lifecycle: This refers to specific hooks that allow you to execute code at certain points in a container’s lifecycle. There are two main hooks:
+#postStart: This hook is executed immediately after a container is created. However, there is no guarantee that the hook will execute before the container’s entrypoint
+# preStop: This hook is called immediately before a container is terminated. It can be used to perform cleanup or graceful shutdown operations.
+# LivenessProbe: This is used to check the health of a container. If the liveness probe fails, the kubelet kills the container, and the container is subjected to its restartPolicy
+# ReadinessProbe: This indicates whether a container is ready to serve requests. If the readiness probe fails, the endpoints controller removes the Pod’s IP address from the endpoints of all Services that match the Pod. This is a way to ensure that traffic does not reach a container that isn’t ready for it.
+# StartupProbe: This is used to check if an application within a container has started. If the startup probe fails, the kubelet will kill the container, and the container will be subjected to its restartPolicy. Startup probes are useful for slow-starting containers, ensuring that the kubelet doesn’t kill them before they are up and running.
+# initContainer: runs before pods app/main container, probes are not supported.sequentially executed if there is multiple init, when fails it behaves w.r.t restartPolicy in pods definition
+# sidecarContainer: runs long with app/main container, probes are  supported. Has seperate restart policy, cna be sperateley stopeed. started or restarted from app conatiner. used for logging,dta sync, secuirty monitoring
+# ephermal conatiner: temporary container for troubleshooting, not bor running app, probes, port are not supported.
+# podDisruptionBudget ensures min number of pod runs even we try to remmove all of them
+# pod Quality Of Service: 3 types: guaranteed, burstable and bestEffort- evited in te order- bestEffort(no container in that pod has memory or cpu req/limit), burstable(any of the container in that pod has memory or cpu req/limit), guaranteed(all container has same  memory or cpu req/limit)
+# downward API allows containers to consume information about themselves or the cluster without using the Kubernetes client or API server.
+# user Namespaces isolate each pod from each other from the host, so the user in a container doesn't have any privileges like roor user in host other pods.
+# A DaemonSet ensures that all (or some) Nodes run a copy of a Pod
+# A CronJob creates Jobs on a repeating schedule
+# A ReplicationController ensures that a specified number of pod replicas are running at any one time.
