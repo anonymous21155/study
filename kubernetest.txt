@@ -134,4 +134,22 @@ ex: metadata:
 # user Namespaces isolate each pod from each other from the host, so the user in a container doesn't have any privileges like roor user in host other pods.
 # A DaemonSet ensures that all (or some) Nodes run a copy of a Pod
 # A CronJob creates Jobs on a repeating schedule
+# Ingress exposes HTTP and HTTPS routes from outside the cluster to services within the cluster
+# gateway api is same as ingress but ca route traffic based on tcp/udp protocol while ingress only route traffice of http/https
 # A ReplicationController ensures that a specified number of pod replicas are running at any one time.
+# endpointSlices is used to tract network endpoints related to a service which indeed represent IP addresses and ports of the Pods that are part of the Service
+# format of dns name of a pod: pod-ipv4-address.my-namespace.pod.cluster-domain.example. For example, if a Pod in the default namespace has the IP address 172.17.0.3, and the domain name for your cluster is cluster.local, then the Pod has a DNS name: 172-17-0-3.default.pod.cluster.local
+# Pod with spec.hostname set to "foo", and spec.subdomain set to "bar", in namespace "my-namespace", will have its hostname set to "foo" and its fully qualified domain name (FQDN) set to "foo.bar.my-namespace.svc.cluster.local"
+# spec.ipFamilyPolicy can set the ip address of a pod or service as single or dualstack, poosible values: SingleStack, PreferDualStack, RequireDualStack
+# .spec.ipFamilies accepts array which set whether ipv4 or 6 or both neeeds to assign ot pod or service. ex:["IPv4"],["IPv6"],["IPv4","IPv6"]
+# internal-only traffic policy: If two Pods in your cluster want to communicate, and both Pods are actually running on the same node, use Service Internal Traffic Policy to keep network traffic within that node
+# A ConfigMap provides a way to inject configuration data into pods.
+# volume type:
+#   emptyDir: A temporary directory that is created when a pod is assigned to a node and exists as long as the pod is running
+#   hostPath: Mounts a file or directory from the host node’s filesystem into a pod
+#   persistentVolume: Suitable for long-term storage needs
+#   NFS: Allows multiple pods to share the same storage, which is mounted from a network file system
+#   configMaps & secrets: Provides a way to inject configuration data and sensitive information into pods
+#   CSI (Container Storage Interface): Allows for the use of third-party storage solutions.
+#   image: olume source represents an OCI object (a container image or artifact) which is available on the kubelet's host machine.
+#   local: volume represents a mounted local storage device such as a disk, partition or directory
