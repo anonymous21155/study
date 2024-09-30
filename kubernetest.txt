@@ -153,3 +153,7 @@ ex: metadata:
 #   CSI (Container Storage Interface): Allows for the use of third-party storage solutions.
 #   image: olume source represents an OCI object (a container image or artifact) which is available on the kubelet's host machine.
 #   local: volume represents a mounted local storage device such as a disk, partition or directory
+# storageClass: administrators to define different types of storage they offer within a cluster like azure files, aws EBS etc.
+# VolumeSnapshotContent: is a snapshot taken from a volume in the cluster that has been provisioned by an administrator
+# VolumeSnapshot: is a request for snapshot of a volume by a user. It is similar to a PersistentVolumeClaim
+# A ConfigMap is an API object used to store non-confidential data in key-value pairs. Pods can consume ConfigMaps as environment variables, command-line arguments, or as configuration files in a volume.
