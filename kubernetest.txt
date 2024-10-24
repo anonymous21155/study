@@ -157,3 +157,8 @@ ex: metadata:
 # VolumeSnapshotContent: is a snapshot taken from a volume in the cluster that has been provisioned by an administrator
 # VolumeSnapshot: is a request for snapshot of a volume by a user. It is similar to a PersistentVolumeClaim
 # A ConfigMap is an API object used to store non-confidential data in key-value pairs. Pods can consume ConfigMaps as environment variables, command-line arguments, or as configuration files in a volume.
+# A file that is used to configure access to clusters is called a kubeconfig file
+# Limit Ranges: are policies used to constrain resource allocations (like CPU and memory) within a namespace.
+# Pod Overhead: is a way to account for the resources consumed by the Pod infrastructure on top of the container requests & limits.
+# Taints: are applied to nodes to mark them as having special properties that should not accept any pods that do not tolerate the taints.
+# Tolerations: are applied to pods to allow them to be scheduled on nodes with matching taints
