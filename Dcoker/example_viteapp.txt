@@ -1,0 +1,13 @@
+FROM node:20-alpine
+
+WORKDIR /app
+
+COPY . .
+
+RUN npm install
+
+EXPOSE 5173
+
+CMD ["npm", "run", "dev"]
+
+// update dev command like "vite --host" package.json and run with command "docker run -p 5173:5173 image-name"
