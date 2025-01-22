@@ -57,3 +57,25 @@ docker compose -f <path to compose file(yaml)> -d #-d is detached mode, seprated
 
 #to stop multi container images
 docker compose down
+ 
+#to ceate a virtual network
+docker network create myvnet
+
+#connect an image to vnet
+docker run -d --network <network name> <container name>
+
+#expose a port
+docker run -d -p <host port>:<container port> <conatiner name>
+
+#create volume
+docker volume create myvolume
+
+#attach a colume to path when container start
+docker run -d -p 80:80 -v myvolume:/logs:rw <container name>
+
+#list volume 
+docker volume ls
+
+#delete volume
+docker volume rm <volume name>
+
