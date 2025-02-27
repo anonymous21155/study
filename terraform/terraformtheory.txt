@@ -1,0 +1,38 @@
+#Files
+
+main.tf- define the resource configuration.
+provider.tf- define the cloud providers.
+variables.tf - define the variables used.
+outputs.tf- define output expected
+terraform.tfvar - define values overriding default values.
+terraform.tfstate - conatins state of terraform like resouce created deleted, details of it etc.
+backend.tf - stores state of terraform in azure blob storage
+state-locks - prevent 2 users/process terraform state
+provisoners - used to run command on resource after its created.
+
+#Basic syntax
+
+block_type 'label 1' 'label2' {
+    argument_name = 'value'
+}
+
+#commands
+terraform init - initialize terraform
+terraform apply -auto-approve - apply the configuration file with conformation
+terraform apply -var="myVar=RG"
+terraform destroy - delete all resources
+terraform validate - check for error on config files
+terraform plan - shows what terraform plans to do
+terraform force-unlock -dry-run <lockID> - check who holds the lock
+terraform force-unlock <lockID> - to unlock a state
+terraform output <label name> - retreieves the value mentioned respected label
+
+ssh-keygen -t rsa -b 2048 - generate ssh key
+ssh -i <pathtosshkey> <username>@<public_ip>
+
+
+# create service principal for terraform
+az ad sp create-for-rbac --name <service_principal_name> --role Contributor --scopes /subscriptions/<subscription_id>
+az ad sp create-for-rbac --name <name> --role contributor --scopes /subscriptions/<id>resourceGroups/<name>
+az ad sp create-for-rbac --name <name> --role reader --scopes /providers/Microsoft.Management/managementGroups/<id>
+

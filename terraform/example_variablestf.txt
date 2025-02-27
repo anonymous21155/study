@@ -1,0 +1,10 @@
+variables "myVar" {
+  description = "a test variable"
+  type = "string" #number, bool
+  default = "myRG"
+  sensitive = true #hides form logs
+  validation {
+    condition = length(var.myVar) > 4
+    error_meassage = "name contain atleast 5 letters"
+  }
+}

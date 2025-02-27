@@ -1,0 +1,4 @@
+output "myOutput" {
+  value = "var.myVar is created"
+  description = "shows the resource group created"
+}

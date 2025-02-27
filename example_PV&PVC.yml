@@ -27,7 +27,7 @@ metadata:
   name: myclaim
 spec:
   accessModes:
-    - ReadWriteOnce
+    - ReadWriteOnce #ReadOnlyMany, ReadWriteMany
   volumeMode: Filesystem
   resources:
     requests:

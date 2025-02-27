@@ -1,0 +1,19 @@
+# Example of provide.tf
+
+terraform {
+  required_providers {
+    azurerm {
+      source = "hashicorp/azurerm"
+      version = "~> 3.0"
+    }
+  }  
+}
+cloud {
+  organization = "ORG_NAME"
+  workspaces  {
+    name = "workspace_name"
+  }
+}
+provider "azurerm" {
+  features {}  
+}

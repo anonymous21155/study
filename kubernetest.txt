@@ -10,7 +10,7 @@ kubectl cordon <node-name>
 #status of node
 kubectl describe node <node-name>
 
-#deployment using manifest file
+#create or update deployment using manifest file
 kubectl apply -f <path to mainfest file>
 
 #create deployment using imperative command
@@ -23,20 +23,20 @@ kubectl create -f <manifest file>
 #delete deployment (object) using imperative object configuration
 kubectl delete -f <manifest file>
 
-# delete object  using foreground cascading deletion
+# delete object  with child resources first
 kubectl delete deployment nginx-deployment --cascade=foreground
 
-# delete object  using background cascading deletion(default)
+# delete object  immediately without deleting child resource, which is cleaned up by system later
 kubectl delete deployment nginx-deployment --cascade=background
 
-# delete object & retain dependats orpahed
+# delete object & retain child resources orphaned
 kubectl delete deployment nginx-deployment --cascade=orphan
 
 #update deployment (object) using imperative object configuration
 kubectl replace -f <manifest file>
 
 # deployment (object) using declarative object configuration
-kubectl diff -f <folder path>
+kubectl diff -f <folder path> #shows difference between adlready running config and new specified file
 kubectl apply -f <folder path> # add -R to both as argument do it recursively
 
 # equality based labels
@@ -63,7 +63,7 @@ kubectl describe <object name>
 #chaning two operations
 kubectl get $(kubectl -f docs/concepts/cluster-administration/nginx/ -o name | grep service/)
 
-#get rollout status
+#get  status of a deployemnt/resource
 kubectl rollout status <object type>/<object name>
 
 #scaling a deployement
@@ -71,14 +71,18 @@ kubectl scale deployement/<deployement name> --replicas=<number>
 
 #autoscale a deployment
 kubectl autoscale deployement/<deployement name> --max=<number> --min=<number> --cpu-percent=<percentage>
+
 #rollback to previous version
-kubect rollback undo <object type>/<object name>
+kubectl rollback undo <object type>/<object name>
 
 # get history of rollout
 kubectl rollout history <object type>/<object name>
 
 #update label for a kind of object
 kubectl label <object kind> -l <key>=<value>
+
+#create namespace
+kubectl create namespace prod
 
 #get namespaces
 kubectl get namespace

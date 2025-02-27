@@ -6,9 +6,10 @@ metadata:
   name: myFirstApp
 spec:
   replicas: 1
+  backofflimit: 4
   selector:
     matchLabels:
-      pod: Dev
+      template: testTemplate
   template:
     metadata:
       name: podTemplate
@@ -20,6 +21,16 @@ spec:
         image: <ACR name>.azurecr.io/<repo name>:<version>
         ports: 
           containerPort: 3000
+        resources:
+          limits:
+             cpu: 500m
+             memeory: 200Mi
+          requests:
+             cpu: 200m
+             memeory: 100Mi
+        env:
+          name: password
+          value: 123456789
   strategy:
    type: RollingUpdate
    rollingUpdate:

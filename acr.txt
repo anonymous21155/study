@@ -8,7 +8,7 @@ az acr create --resource-group myResourceGroup --name $ACRNAME --sku Basic
 docker pull <registry name>/<image name>
 
 # tag the image before pushing to acr
-docker tag <registry name>/<image name> <login server value>/<repo name><tag value>
+docker tag <registry name>/<image name> <login server value>/<repo name>:<version>
 # ex: docker tag mcr.microsoft.com/hello-world mycontainerregistry.azurecr.io/hello-world:v1
 
 # push image to acr 
@@ -78,4 +78,34 @@ docker volume ls
 
 #delete volume
 docker volume rm <volume name>
+
+
+trigger:
+- main
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+variables:
+  dockerRegistryServiceConnection: '<Your-Service-Connection-ID>'
+  imageRepository: '<Your-Image-Repository>'
+  containerRegistry: '<Your-Registry-Name>.azurecr.io'
+  dockerfilePath: '$(Build.SourcesDirectory)/Dockerfile'
+  tag: '$(Build.BuildId)'
+
+stages:
+- stage: Build
+  displayName: 'Build and Push Docker Image'
+  jobs:
+  - job: BuildAndPush
+    displayName: 'Build and Push'
+    steps:
+    - task: Docker@2
+      inputs:
+        command: buildAndPush
+        dockerfile: $(dockerfilePath)
+        containerRegistry: $(dockerRegistryServiceConnection)
+        repository: $(imageRepository)
+        tags: |
+          $(tag)
 

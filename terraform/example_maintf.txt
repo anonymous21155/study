@@ -1,0 +1,35 @@
+resource "azurerm_resource_group" {
+  name = "MY-RG"
+  location = "East US"
+  #locatiom = "Australia East"
+  tags = {
+    env = "prod"
+  }
+
+  lifecycle {
+    prevent_destroy = true
+    create_before_destroy = true
+    ignore_changes = [
+      tags #wont update the resource if tag changes
+    ]
+  }
+  
+  modules "network" {
+    source = "pathtomain.tf_file>
+    name = "myVNET"
+    resource_group_name = "myRG"
+    location = "East US"
+    address_space = ["10.0.0.0./24"]
+  }
+  provisioner "remote-exec" {
+    connection {
+      type = "ssh"
+      user = "<username>"
+      password = "<value>"
+      host = "azurerm_public_ip.<label2>.ip_address
+      inline = [
+        "<command>"
+      ]
+    }
+  }
+}
