@@ -21,8 +21,12 @@ terraform init - initialize terraform
 terraform apply -auto-approve - apply the configuration file with conformation
 terraform apply -var="myVar=RG"
 terraform destroy - delete all resources
+terraform destroy -target=azurerm_resource_group.my-RG, delete a particular RG only
 terraform validate - check for error on config files
 terraform plan - shows what terraform plans to do
+terraform plan -out=tfplan , export the pan details to a file
+terraform apply tfplan , create based on tfplan file
+terraform show tfplan, display the content of tfplan
 terraform force-unlock -dry-run <lockID> - check who holds the lock
 terraform force-unlock <lockID> - to unlock a state
 terraform output <label name> - retreieves the value mentioned respected label
