@@ -12,6 +12,7 @@ resource "azurerm_resource_group" {
     ignore_changes = [
       tags #wont update the resource if tag changes
     ]
+    replace_triggered_by = [ #mention_resources ] # will replace the resource when the dependency added in the bracket changes
   }
   
   modules "network" {
