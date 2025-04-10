@@ -31,6 +31,11 @@ terraform force-unlock -dry-run <lockID> - check who holds the lock
 terraform force-unlock <lockID> - to unlock a state
 terraform import - import resource to state file which is not present
 terraform import [options] <address> <resource_id> # eg: terraform import azurerm_resource_group.myrg "/subscriptions/<subscription-id>/resourceGroups/RG-23", terraform import module.mymodule.azurerm_resource_group.myrg "/subscriptions/<subscription-id>/resourceGroups/RG-23"
+terraform workspace list	#Shows all available workspaces
+terraform workspace show	#Displays the current workspace
+terraform workspace new <name>	#Creates a new workspace
+terraform workspace select <name>	#Switches to a different workspace
+terraform workspace delete <name>	#Deletes a workspace (if not currently used)
 
 
 terraform output <label name> - retreieves the value mentioned respected label
