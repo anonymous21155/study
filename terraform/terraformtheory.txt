@@ -29,6 +29,7 @@ terraform apply tfplan , create based on tfplan file
 terraform show tfplan, display the content of tfplan
 terraform force-unlock -dry-run <lockID> - check who holds the lock
 terraform force-unlock <lockID> - to unlock a state
+terraform fmt - format the terraform code like identation, -recursive optional argument to format modules in sub drectory
 terraform import - import resource to state file which is not present
 terraform import [options] <address> <resource_id> # eg: terraform import azurerm_resource_group.myrg "/subscriptions/<subscription-id>/resourceGroups/RG-23", terraform import module.mymodule.azurerm_resource_group.myrg "/subscriptions/<subscription-id>/resourceGroups/RG-23"
 terraform workspace list	#Shows all available workspaces
