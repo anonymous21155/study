@@ -8,3 +8,18 @@ variables "myVar" {
     error_meassage = "name contain atleast 5 letters"
   }
 }
+
+#object type varaiable structure 
+variable "<variable_name>" {
+  description = "<description_of_variable>"
+  type = object({
+    <attribute1> = <type1>
+    <attribute2> = <type2>
+    ...
+  })
+  default = {
+    <attribute1> = <default_value1>
+    <attribute2> = <default_value2>
+    ...
+  }
+}
