@@ -1,11 +1,18 @@
-apiVersion: autoscaling/v1
+apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
-  name: frontend-scaler
+  name: store-front-hpa
 spec:
+  maxReplicas: 10 # define max replica count
+  minReplicas: 3  # define min replica count
   scaleTargetRef:
-    kind: ReplicaSet
-    name: frontend
-  minReplicas: 3
-  maxReplicas: 10
-  targetCPUUtilizationPercentage: 50
+    apiVersion: apps/v1
+    kind: Deployment
+    name: store-front
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: 50
