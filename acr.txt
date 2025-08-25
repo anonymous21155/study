@@ -79,6 +79,10 @@ docker volume ls
 #delete volume
 docker volume rm <volume name>
 
+#take snapshop of running conatiner
+docker commit [OPTIONS] CONTAINER_ID IMAGE_NAME[:TAG]
+ex: docker commit -m "Added nginx" -a "Gokul Dev" abc123 my-nginx-image:v1
+
 
 trigger:
 - main
