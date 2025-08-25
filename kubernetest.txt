@@ -166,4 +166,4 @@ ex: metadata:
 # Pod Overhead: is a way to account for the resources consumed by the Pod infrastructure on top of the container requests & limits.
 # Taints: are applied to nodes to mark them as having special properties that should not accept any pods that do not tolerate the taints.
 # Tolerations: are applied to pods to allow them to be scheduled on nodes with matching taints
-#
+# ExternalName service is a special type of service that maps a service name to an external DNS name, rather than routing traffic to a set of pods.
